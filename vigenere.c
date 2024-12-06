@@ -1,6 +1,7 @@
 #include "helper.h"
 #include "hashdict.h"
 
+extern float default_frequency[26];
 int gcd (int a, int b) 
 {
 	int r; // remainder
@@ -234,7 +235,6 @@ void decrypt_plaintexts (int *number_of_max_digraphs, int **ngraph_max_gcds, con
             }
             checked_gcds[counter++] = current_gcd;
             char key[current_gcd + 1];
-            const float default_frequency[26] = {8.2, 1.5, 2.8, 4.2, 12.7, 2.2, 2.0, 6.1, 7.0, 0.1, 0.8, 4.0, 2.4, 6.7, 7.5, 1.9, 0.1, 6.0, 6.3, 9.0, 2.8, 1.0, 2.4, 0.1, 2.0, 0.1};
 
             calculate_key(ciphertext_clean, current_gcd, default_frequency, key);
 
@@ -248,7 +248,7 @@ void decrypt_plaintexts (int *number_of_max_digraphs, int **ngraph_max_gcds, con
             const int valid = validate_words_with_dictionary(words, k);
 
             float ratio = (float)valid / k;
-            if (ratio < 0.5){
+            if (ratio <  (float)PERCENTAGE_REQ / 100){
                 printf(" => Discarded key \"%s\" (produced non-words)\n",key);
                 continue;
             }

@@ -1,5 +1,7 @@
 #include "helper.h"
 
+extern float default_frequency[26];
+
 // Structure to hold statistical distance and corresponding shift
 struct sd
 {
@@ -71,7 +73,7 @@ int main()
     }
 
     // Provide the ciphertext here
-    strcpy(arr, "Yt gj, tw sty yt gj, ymfy nx ymj vzjxynts: Bmjymjw 'ynx stgqjw ns ymj rnsi yt xzkkjw Ymj xqnslx fsi fwwtbx tk tzywfljtzx ktwyzsj, Tw yt yfpj fwrx flfnsxy f xjf tk ywtzgqjx Fsi gd tuutxnsl jsi ymjr. Yt inj—yt xqjju, St rtwj; fsi gd f xqjju yt xfd bj jsi Ymj mjfwy-fhmj fsi ymj ymtzxfsi sfyzwfq xmthpx Ymfy kqjxm nx mjnw yt: 'ynx f htsxzrrfynts Ijatzyqd yt gj bnxm'i"); // Example ciphertext
+    strcpy(arr, "Yt gj, tw sty yt gj, ymfy nx ymj vzjxynts: Bmjymjw 'ynx stgqjw ns ymj rnsi yt xzkkjw Ymj xqnslx fsi fwwtbx tk tzywfljtzx ktwyzsj, Tw yt yfpj fwrx flfnsxy f xjf tk ywtzgqjx Fsi gd tuutxnsl jsi ymjr. Yt inj - yt xqjju, St rtwj; fsi gd f xqjju yt xfd bj jsi Ymj mjfwy-fhmj fsi ymj ymtzxfsi sfyzwfq xmthpx Ymfy kqjxm nx mjnw yt: 'ynx f htsxzrrfynts Ijatzyqd yt gj bnxm'i"); // Example ciphertext
 
     char *arr_clean;
     arr_clean = malloc(MAXC * sizeof(char)); // Allocate memory for cleaned text
@@ -99,9 +101,6 @@ int main()
         }
     }
     printf("Clean string is: \"%s\"\n", arr_clean);
-
-    // Default letter frequency in English
-    const float default_frequency[26] = {8.2, 1.5, 2.8, 4.2, 12.7, 2.2, 2.0, 6.1, 7.0, 0.1, 0.8, 4.0, 2.4, 6.7, 7.5, 1.9, 0.1, 6.0, 6.3, 9.0, 2.8, 1.0, 2.4, 0.1, 2.0, 0.1};
     float cipher_frequency[26];  // Cipher text frequency
     sd statistical_distance[26]; // Array to store statistical distances
 
@@ -179,7 +178,7 @@ int main()
         float ratio = (float)valid / CHECKED_WORDS;
 
         // If valid, print plaintext and stop executing
-        if (ratio >= 0.5)
+        if (ratio >= (float)PERCENTAGE_REQ / 100)
         {
             printf("\nKey = %d is valid.\nPlain text is: %s\n", key, decrypted_plaintext);
             free(decrypted_plaintext);
