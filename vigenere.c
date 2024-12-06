@@ -96,7 +96,7 @@ void extract_ngraph_list_dist (struct dictionary *dict, const int n, const char 
     }
     counter2 = 0; // maximum occurences of one of the most common n_graphs
     for (int i = 0; i < counter; i++){
-        printf("Distances between instances of %d'th Max %d-graph (%s): ", i, n, ngraph_list[i]);
+        printf("Distances between instances of %d-graph %s are: ", n, ngraph_list[i]);
         int ppos = -1;
         int cnt = 0;
         for (int j = 0; j < strlen(ciphertext) - (n-1); j++){
@@ -114,13 +114,12 @@ void extract_ngraph_list_dist (struct dictionary *dict, const int n, const char 
                     ngraph_dist[i][cnt++] = j - ppos;
                 }
                 ppos = j;
-                printf(" %d,", ngraph_dist[i][cnt-1]);
             }
         }
-        for (int j = 0; j < i; j++)
+        for (int j = 0; j < cnt; j++)
         {
             printf("%d", ngraph_dist[i][j]);
-            if (j < i - 1)
+            if (j < cnt - 1)
                 printf(", "); // Add a comma if not the last element
         }
 
@@ -253,7 +252,7 @@ void decrypt_plaintexts (int *number_of_max_digraphs, int **ngraph_max_gcds, con
                 printf(" => Discarded key \"%s\" (produced non-words)\n",key);
                 continue;
             }
-            printf("\n => Key is \"%s\" (w/ success rate %.2f)\n",key,ratio);
+            printf("=> Key is \"%s\" (w/ success rate %.2f)\n\n",key,ratio);
             printf("Plaintext is %s\n\n",decrypted_plaintext);
         }
 
@@ -264,9 +263,9 @@ void decrypt_plaintexts (int *number_of_max_digraphs, int **ngraph_max_gcds, con
 
 int main () {
 
-    const char *ciphertext = "Mw B nfdn tuq Kevqn, bug ux mv mrgr uqewwwhoe Bzi bu hkq cumqulf, wte fmjxam le osr vxssdee Ffvtpukf ag ksny rrye, uaqxz, W zmnam wxl qdnbnsi Upujue Fyeesg wte fmztns, gaia' ksny pumia oiesg pgcu pefhuh Fesxsg pg wte zmxxywdx fbd xal wpbeeuee Twf dicbik, nwux sgdmiwsu, fhr Tigum vupcqv B kfrb lldmvz cir aap sg swnq a yukaagzutpt Unpqn fo tdeu avh dittx uphft aap qtrs kqr qdmol hkq Q 45, Txsvrg dzd GQG tys hjproxxk kkqn V ivxjy vtig Dilwsff if osessffeq, es vosfw ig U kha hhohauunlg gdicbmg' viw yy ogxmjvhqkf Epxld rz ml exhtoft sb U hhu'h igcx gt ff gkqege, lno Ab ehvf ml kshb, drqtxy hkmn zk kkhjh, S I'z ditkm wa dvq egk brnoqk gtu gdhe zq Jnjy wte javek, txok zk qhtg dzd zk kbyz Pk lvri bz domyrp sna zlwe n Vlxyw fgry, U'q klogk tb pmx! Hg L eig nevr oqp lbao posq U ufqh mv ph m ceasd Kclz' wumxxcsu ut gasd mfry samxvowq' ohnurl ac sacxqxuvcne A ouk uhr patuqvybqnqr bz xal kuant dstk W jat faqx kfxss, gdmxk hr seg flx hjhzur eiplr L iaaf mm hzo rrby xal Frxek'e xh avh Xekgw Zlhwun' cmmw pg dxl V qbilqwqd Zk qhavhd dvpr'm nwyq mr ilta W zmng, ilta hkq fhoo? Gvk L'he tax t Nzrok zmobu' arfhrdjnjyhds qggd Zvlf if dits oqp hhzkkf'g kaw V rixs W uab nzh lasdx broenzs wtag ysglm jat gtem dvlb acbits Ylokvz' rbnude dbir mos vfece nnzh iar eqt Tum uqprdgnzglan yqew ac qugtmw zlhwun' jqx Mos lzfemvxk'g df ybgv alog denx wmlogk Ybg fxahhd gemf rviu suae 'gtbgh U'm eqewf";
+    const char *ciphertext = "Ftkins Xpk Wvzu; llna eeryc Tdgq nyx Btsl? W ldvfomx Flvs! Wpzr tizoc, Xcs hycyiuq! Xywct mauiz Nizbv X ez meqz xf ycda; Goma Flp tdgxu-zxzqedwcv Pvmi jqazzstvf ti. Buqv ob X, pnfmvs hvgdaegl xpq affas, Qnki umrztthx bu iidxy hd hpnf qizozbs! Csg vrm aj rza ilrzi emviwdgw ehroqh wcg hxepjm Qwtoetxu kiifl; kvdj wuhpb mpfbt hyecmdq. Xysgtjbyi afeer je! avu jwd xymhtps yivaae, Qdcuhlv btc wcth, iaqsg flv ktppgo jqxpvr gteyt, Fg Yi kvtn eel etdirrn dzrygwyi, Ss iwsh alm aykkpgh phyaq, pvti-weakil arv. Rgdrn hrl Nlîjvbp eak Nikeufpiln, Rezze, rbs ppy alm axysg leeymwdw ysgt, Eel wtmme pn Bi. Qlwbdsp hwtq slezxijgan. Jvnlb! flfi hweya gzgwy hwn vvcete me hwt jvlpl. Eeexpne fhml: Temwcv lrhvl flvgt lsekw wr Ovgwpzn, oi ets nspgigo e lueusb, lmgo nwurvr eppzz, ucmozbv prq wvwexioixrt omueict, heexl eomme hd Zvv- zlvm, wkobbiepro imkv utee, jeafmeu sdaa oma rets.";
 
-        struct dictionary *my_dict = dic_new(0);
+    struct dictionary *my_dict = dic_new(0);
 
     char* ciphertext_clean;
     ciphertext_clean = malloc((strlen(ciphertext) + 1) * sizeof(char));
@@ -307,7 +306,7 @@ int main () {
     }
     for (int i= 0; i< number_of_max_digraphs; i++){ // find all gcd of distances between each common digraph, requiring that distance >= 3
         int cnt = 0;
-        printf("GCDs of distances between instances of %d'th 2-graph:", i);
+        printf("GCDs of distances between instances of 2-graph %s are:", digraph_list[i]);
         for (int j = 1; j < maximum_occurences_of_max_digraphs; j++)
         {
             for(int k = j + 1; k < maximum_occurences_of_max_digraphs; k++){
@@ -361,8 +360,9 @@ int main () {
     }
     for (int i= 0; i< number_of_max_trigraphs; i++){
         int cnt = 0;
-        printf("GCDs of distances between instances of %d'th 3-graph:", i);
-        for (int j = 1; j < maximum_occurences_of_max_trigraphs; j++){
+        printf("GCDs of distances between instances of 3-graph %s are:", trigraph_list[i]);
+        for (int j = 1; j < maximum_occurences_of_max_trigraphs; j++)
+        {
             for(int k = j + 1; k < maximum_occurences_of_max_trigraphs; k++){
                 int pgcd = gcd(trigraph_dist[i][j],trigraph_dist[i][k]);
                 bool flag = false;
@@ -376,12 +376,12 @@ int main () {
                     t_max_gcds[i][1+cnt++] = pgcd;
                 }
             }
-
         }
+        t_max_gcds[i][0] = cnt;
         printf("  Total: %d GCD(s),  Values: [", cnt);
         for (int j = 1; j < 1 + cnt; j++)
         {
-            printf("%d", d_max_gcds[i][j]);
+            printf("%d", t_max_gcds[i][j]);
             if (j < cnt)
                 printf(", ");
         }
